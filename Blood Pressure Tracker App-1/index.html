@@ -1,0 +1,367 @@
+<!--
+  Assignment: Chapter 5 Week 5
+  Author: Kylie Gregory
+  Date: 08/08/2020
+  Purpose: The purpose of this app is to allow users to track blood
+pressure over time. They will be able to log in with a password
+and navigate between an information page, a menu page, a records
+page, a page to record new entries, a graph that shows tracked
+information, and a page for advice and suggestions.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Pressure Tracking App</title>
+
+    <!--CSS-->
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   
+    <!--JS-->
+    <script src="scripts/jquery-1.8.3.min.js"></script>
+    <script src="scripts/chromeFileProtocolFix.js"></script>
+    <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+
+  </head>
+  <body>
+    <!--User Login Page-->
+    <div data-role="page" id="pageHome">
+      <div data-role="header">
+        <h1>Blood Pressure Tracker</h1>
+      </div>
+
+      <div data-role="content">
+        <label for="passcode">Password:</label>
+        <input type="password" id="passcode">
+
+        <div data-role="controlgroup" id="numKeyPad">
+          <a href="#" data-role="button" id="btnEnter" type="submit">
+            Enter</a>
+          <a href="#pageAbout" data-role="button">About</a>
+        </div>
+        <div data-role="controlgroup" data-type="horizontal">
+          <a data-role="button" onclick="addValueToPassword(7);">7</a>
+          <a data-role="button" onclick="addValueToPassword(8);">8</a>
+          <a data-role="button" onclick="addValueToPassword(9);">9</a>
+        </div>
+        <div data-role="controlgroup" data-type="horizontal">
+          <a data-role="button" onclick="addValueToPassword(4);">4</a>
+          <a data-role="button" onclick="addValueToPassword(5);">5</a>
+          <a data-role="button" onclick="addValueToPassword(6);">6</a>
+        </div>
+        <div data-role="controlgroup" data-type="horizontal">
+          <a data-role="button" onclick="addValueToPassword(1);">1</a>
+          <a data-role="button" onclick="addValueToPassword(2);">2</a>
+          <a data-role="button" onclick="addValueToPassword(3);">3</a>
+        </div>
+        <div data-role="controlgroup" data-type="horizontal">
+          <a data-role="button" onclick="addValueToPassword(0);">0</a>
+          <a data-role="button" onclick="addValueToPassword('bksp');"
+            data-icon="delete">del</a>
+        </div>
+      </div>
+    </div>
+
+    <!--Disclaimer Page-->
+    <div data-role="page" id="legalNotice" data-close-btn="none">
+      <div data-role="header">
+        <h1>Disclaimer</h1>
+      </div>
+
+      <div data-role="content">
+        <p>DISCLAIMER</p>
+
+        <p>Last updated August 08, 2020</p>
+
+
+        <p>WEBSITE DISCLAIMER</p>
+
+        <p>The information provided by Kylie Gregory (“we,” “us” or “our”)
+          on index.html (the “Site”) and our mobile application
+          is for general informational purposes only. All information on the
+          Site and our mobile application is provided in good
+          faith, however we make no representation or warranty of any
+          kind, express or implied, regarding the accuracy,
+          adequacy, validity, reliability, availability or completeness
+          of any information on the Site or our mobile application.
+          UNDER NO CIRCUMSTANCE SHALL WE HAVE ANY LIABILITY TO YOU FOR ANY
+          LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF
+          THE SITE OR OUR MOBILE APPLICATION OR RELIANCE ON ANY
+          INFORMATION PROVIDED ON THE SITE AND OUR MOBILE APPLICATION.
+          YOUR USE OF THE SITE AND OUR MOBILE APPLICATION AND YOUR
+          RELIANCE ON ANY INFORMATION ON THE SITE AND OUR MOBILE APPLICATION
+          IS SOLELY AT YOUR OWN RISK.</p>
+        <br>
+
+        <a href="#pageUserInfo" id="noticeYes" data-role="button"
+          data-icon="forward" data-mini="false">Yes</a>
+      </div>
+    </div>
+
+    <!--About Page-->
+    <div data-role="page" id="pageAbout">
+      <div data-role="header">
+        <a href="#pageHome" data-role="button" data-icon="bars"
+          data-iconpos="left">Home</a>
+        <h1>Info</h1>
+      </div>
+
+      <div data-role="content">
+        <p>This app allows users to record and track their blood
+          pressure over time. You are able to log in with a password
+          and navigate between an information page, a menu page, a records
+          page, a page to record new entries, a graph that shows tracked
+          information, and a page for advice and suggestions.<p>
+      </div>
+    </div>
+
+    <!--User Information Page/Form-->
+    <div data-role="page" id="pageUserInfo">
+      <div data-role="header">
+        <a href="#pageMenu" data-role="button" data-icon="bars"
+          data-iconpos="left" data-inline="true">Menu</a>
+        <a href="#pageAbout" data-role="button" data-icon="info"
+          data-iconpos="right" data-inline="true">Info</a>
+        <h1>User Information</h1>
+      </div>
+
+      <div data-role="content">
+        <form id="frmUserForm" action="">
+          <div data-role="fieldcontain">
+            <label for="txtFirstName">First Name: </label>
+            <input type="text" placeholder="First Name" name="txtFirstName"
+              data-mini="false" id="txtFirstName" value="" required>
+          </div>
+
+          <div data-role="fieldcontain">
+            <label for="txtLastName">Last Name: </label>
+            <input type="text" placeholder="Last Name" name="txtLastName"
+              data-mini="false" id="txtLastName" value="" required>
+          </div>
+
+          <div data-role="fieldcontain">
+            <label for="datBirthdate">Birthdate: </label>
+            <input type="date" name="datBirthdate" data-mini="false"
+              id="datBirthdate" value="" required>
+          </div>
+
+          <div data-role="fieldcontain">
+            <label for="changePassword">Edit Password: </label>
+            <input type="password" placeholder="New Password"
+              name="changePassword" data-mini="false" id="changePassword"
+              value="" required>
+          </div>
+
+          <div data-role="fieldcontain">
+            <label for="txtHealthCardNumber">Health Card Number: </label>
+            <input type="text" placeholder="Health Card Number" 
+              name="txtHealthCardNumber" data-mini="false"
+              id="txtHealthCardNumber" value="" required>
+          </div>
+
+          <div data-role="fieldcontain">
+            <label for="slcPressureRange" class="select">Blood Pressure Range: </label>
+            <select name="slcPressureRange" id="slcPressureRange" data-mini="false"
+              data-native-menu="false" required>
+              <option>Select Blood Pressure Range</option>
+              <option value="Normal">Normal</option>
+              <option value="Elevated">Elevated</option>
+              <option value="StageOneHigh">Stage 1 HBP</option>
+              <option value="StageTwoHigh">Stage 2 HBP</option>
+            </select>
+          </div>
+
+          <div data-role="fieldcontain">
+            <label for="slcSystolic" class="select">Systolic BP: </label>
+            <select name="slcSystolic" id="slcSystolic" data-mini="false"
+              data-native-menu="false" required>
+              <option>Select Systolic Range (in mmHg)</option>
+              <option value="BelowSBP">Below 120</option>
+              <option value="LowBetweenSBP">Between 120-129</option>
+              <option value="HighBetweenSBP">Between 130-139</option>
+              <option value="AboveSBP">Above 140</option>
+            </select>
+          </div>
+
+        <div data-role="fieldcontain">
+          <label for="slcDiastolic" class="select">Diastolic BP: </label>
+            <select name="slcDiastolic" id="slcDiastolic" data-mini="false"
+              data-native-menu="false" required>
+              <option>Select Diastolic Range (in mmHg)</option>
+              <option value="BelowDBP">Below 80</option>
+              <option value="BetweenDBP">Between 80-89</option>
+              <option value="AboveDBP">Above 90</option>
+            </select>
+          </div>
+
+          <input type="submit" id="btnUserUpdate" data-icon="check"
+            data-iconpos="left" value="Update" data-inline="true">
+        </form>
+      </div>
+    </div>
+
+    <!--Menu Page-->
+    <div data-role="page" id="pageMenu">
+      <div data-role="header">
+        <a href="#pageMenu" data-role="button" data-icon="bars"
+          data-iconpos="left" data-inline="true">Menu</a>
+        <a href="#pageAbout" data-role="button" data-icon="info"
+          data-iconpos="right" data-inline="true">Info</a>
+        <h1>Blood Pressure Tracking</h1>
+      </div>
+
+      <div data-role="content">
+        <div data-role="controlgroup">
+          <a href="#pageUserInfo" data-role="button">User Info</a>
+          <a href="#pageRecords" data-role="button">Records</a>
+          <a href="#pageGraph" data-role="button">Graph</a>
+          <a href="#pageAdvice" data-role="button">Suggestions</a>
+        </div>
+      </div>
+    </div>
+
+    <!--Records Page-->
+    <div data-role="page" id="pageRecords">
+      <div data-role="header">
+        <a href="#pageMenu" data-role="button" data-icon="bars"
+          data-iconpos="left" data-inline="true">Menu</a>
+        <a href="#pageAbout" data-role="button" data-icon="info"
+          data-iconpos="right" data-inline="true">Info</a>
+        <h1>Records</h1>
+      </div>
+
+      <div data-role="content">
+        <!--User's Information Section-->
+        <div data-role="fieldcontain" id="divUserSection">
+
+        </div>
+
+        <h2 style="text-align: center;">History</h2>
+        
+        <div data-role="fieldcontain">
+          <!--Records Table-->
+          <table id="tblRecords" class="ui-responsive table-stroke">
+
+          </table>
+        </div>
+
+        <div data-role="fieldcontain">
+          <a href="#pageNewRecordForm" id="btnAddRecord" data-role="button"
+            data-icon="plus">Add New Entry</a>
+          <a href="#" data-role="button" id="btnClearHistory"
+            data-icon="delete">Clear History</a>
+        </div>
+      </div>
+    </div>
+
+    <!--New Record Form Page-->
+    <div data-role="page" id="pageNewRecordForm">
+      <div data-role="header">
+        <a href="#pageMenu" data-role="button" data-icon="bars"
+          data-iconpos="left" data-inline="true">Menu</a>
+        <a href="#pageAbout" data-role="button" data-icon="info"
+          data-iconpos="right" data-inline="true">Info</a>
+        <h1>New Record</h1>
+      </div>
+
+      <div data-role="content">
+        <form id="frmNewRecordForm" action="">
+          <div data-role="fieldcontain">
+            <div data-role="fieldcontain">
+              <label for="datExamDate">Date: </label>
+              <input type="date" name="datExamDate" data-mini="false"
+                id="datExamDate" value="">
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="txtSystolic">
+                Systolic Blood Pressure (mmHg);
+              </label>
+              <input type="number" step="1" placeholder="0" name="txtSystolic"
+                data-mini="false" id="txtSystolic" value="" min="0">
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="txtDiastolic">
+                Diastolic Blood Pressure (mmHg):
+              </label>
+              <input type="number" step="1" placeholder="0"
+                name="txtDiastolic" data-mini="false" id="txtDiastolic"
+                value="" min="0">
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="txtDiuretic">
+                Diuretic Dosage(mg) [OPTIONAL]:
+              </label>
+              <input type="number" step="10" placeholder="0"
+                name="txtDiuretic" data-mini="false"
+                id="txtDiuretic" value="" min="0">
+            </div>
+          </div>
+
+          <input type="submit" id="btnSubmitRecord" value="">
+        </form>
+      </div>
+    </div>
+
+    <!--Graph Page-->
+    <div data-role="page" id="pageGraph" class="test">
+      <div data-role="header">
+        <a href="#pageMenu" data-role="button" data-icon="bars"
+          data-iconpos="left" data-inline="true">Menu</a>
+        <a href="#pageAbout" data-role="button" data-icon="info"
+          data-iconpos="right" data-inline="true">Info</a>
+        <h1>Analyze</h1>
+      </div>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h2 class="panel-title">Systolic BP vs Date</h2>
+        </div>
+
+        <div class="panel-body">
+          <canvas id="GraphCanvas" width="500" height="500"
+            style="border:1px solid #000000;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!--Advice Page-->
+    <div data-role="page" id="pageAdvice">
+      <div data-role="header">
+        <a href="#pageMenu" data-role="button" data-icon="bars"
+          data-iconpos="left" data-inline="true">Menu</a>
+        <a href="#pageAbout" data-role="button" data-icon="info"
+          data-iconpos="right" data-inline="true">Info</a>
+        <h1>Suggestions</h1>
+      </div>
+
+      <div data-role="content">
+        <canvas id="AdviceCanvas" width="550" height="550"
+          style="border:1px solid #000000;"></canvas>
+      </div>
+    </div>
+
+    <!--RGraph Files-->
+    <script src="scripts/RGraph.common.core.js"></script>
+    <script src="scripts/RGraph.common.effects.js"></script>
+    <script src="scripts/RGraph.line.js"></script>
+    <script src="scripts/RGraph.cornergauge.js"></script>
+    <script src="scripts/RGraph.hprogresss.js"></script>
+
+    <!--Custom JavaScript files-->
+    <script src="scripts/userForm.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/records.js"></script>
+    <script src="scripts/Table.js"></script>
+    <script src="scripts/Navigation.js"></script>
+    <script src="scripts/Advice.js"></script>
+    <script src="scripts/GraphAnimate.js"></script>
+    <script src="scripts/pageLoader.js"></script>
+    <script src="scripts/advice.js"></script>
+    <script src="scripts/graph.js"></script>
+  </body>
+</html>
